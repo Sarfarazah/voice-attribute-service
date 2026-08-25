@@ -2,13 +2,17 @@ services:
   inference:
     build: ./inference
     environment:
-      OMP_NUM_THREADS: "1"
+      INFERENCE_NUM_THREADS: "4"
+      OMP_NUM_THREADS: "4"
+      OPENBLAS_NUM_THREADS: "4"
+      MKL_NUM_THREADS: "4"
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 10s
       timeout: 3s
       retries: 30
       start_period: 30s
+
   backend:
     build: .
     ports: ["8080:8080"]
